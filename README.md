@@ -38,7 +38,7 @@ There are many possible workflows; git is a powertool and it is worth learning t
 
 Call these commands from inside the git repo. Alternatively, you a graphical option.
 
-- `git commit -a` to add your most recent changes to a commit. This should open up. Alternatively, you can add specific files with `git add <filename>` and then commit the added changes with `git commit`. Note: these commits are local to your computer, not shared.
+- `git commit -a` to add your most recent changes to a commit. This should open up an editor where you can write a short message describing the commit. Alternatively, you can add specific files with `git add <filename>` and then commit the added changes with `git commit`. Note: these commits are local to your computer, not shared.
 
 - `git pull`: Grabs the latest changes from the server. However, if you have made any local commits, you might conflict. To resolve this, you have to `git fetch` the changes, and then `git merge` them in, and then resolve differences in the files.
 
