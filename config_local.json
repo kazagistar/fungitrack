@@ -1,0 +1,8 @@
+{
+	"debug": true,
+    "database":
+    {
+        "type": "sqlite",
+        "filename": "data.db"
+    }
+}

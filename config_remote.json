@@ -1,0 +1,14 @@
+{
+	"debug": true,
+    "database":
+    {
+        "type": "mysql",
+        "params": {
+            "user": "<user>",
+            "password": "<password>",
+            "host": "csci440.cs.montana.edu",
+            "database": "team15",
+            "connection_timeout": 3.0
+        }
+    }
+}
