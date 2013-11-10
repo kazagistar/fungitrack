@@ -18,6 +18,9 @@ if __name__ == "__main__":
     parser.add_argument('-c', '--config',
         help='Load configuration from alternate file',
         default='config.json')
+    parser.add_argument('-r','--reload',
+                        help='Reload db from schema',
+                        action='store_true')
     args = parser.parse_args()
 
     # Read config
@@ -26,8 +29,10 @@ if __name__ == "__main__":
         config = json.loads(config_file.read())
 
     # Database initialization
-    from database import get_database
+    from database import get_database, reinit_database
     app.db = get_database(config)
+    if args.reload:
+        reinit_database(app.db)
 
     # Run server
     params = {

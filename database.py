@@ -48,3 +48,12 @@ def get_database(config):
         return MySQLDatabase(dbconfig)
     else:
         raise NotImplementedError("Invalid DB type")
+
+def reinit_database(db): 
+    with open("schema/schema.sql") as schema:
+        sql = schema.read()
+    with db.connection() as cnx:
+        c = cnx.cursor()
+        c.execute(sql, multi = True)
+
+       
