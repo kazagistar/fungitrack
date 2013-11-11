@@ -49,11 +49,23 @@ def get_database(config):
     else:
         raise NotImplementedError("Invalid DB type")
 
-def reinit_database(db): 
-    with open("schema/schema.sql") as schema:
-        sql = schema.read()
+def reinit_database(db):
     with db.connection() as cnx:
         c = cnx.cursor()
-        c.execute(sql, multi = True)
-
+        for command in load_sql('drop_all'):
+            print(command)
+            c.execute(command)
+        print("Dropping")
+        cnx.commit()
+	d = cnx.cursor()
+        for command in load_sql('create_all'):
+            print(command)
+            d.execute(command)
+        print("Recreating")
+        cnx.commit()
        
+def load_sql(filename):
+    with open("schema/%s.sql" % filename) as file:
+        commands = file.read().split(';')
+        commands = (command.strip() for command in commands if len(command) > 5)
+        return commands
