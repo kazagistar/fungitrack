@@ -1,12 +1,12 @@
 #!python2
-from flask import Flask, g, render_template
+from flask import Flask, g, render_template, flash, Markup
 app = Flask(__name__)
 
 @app.route('/')
 def hello():
-    with app.db.connection() as cnx:
-        return render_template('layout.html')
-
+    flash(Markup("<strong>Error:</strong> Alerts didn't work before!"), "danger")
+    flash(Markup("<strong>Yay!</strong> Now they do :)"), 'success')
+    return render_template('layout.html')
 
 
 if __name__ == "__main__":
@@ -35,6 +35,7 @@ if __name__ == "__main__":
         reinit_database(app.db)
 
     # Run server
+    app.secret_key = 'development key'
     params = {
         'debug': config.get('debug', False),
         'port': config.get('port', 5000)
