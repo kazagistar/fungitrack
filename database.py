@@ -63,7 +63,30 @@ def reinit_database(db):
             d.execute(command)
         print("Recreating")
         cnx.commit()
-       
+	e = cnx.cursor()
+        for command in load_sql('pop_cap_shape'):
+            print(command)
+            e.execute(command)
+        print("Populating CAP_SHAPE")
+        cnx.commit()
+        f = cnx.cursor()
+        for command in load_sql('pop_gill_attatchment'):
+            print(command)
+            f.execute(command)
+        print("Populating GILL_ATTATCHMENT")
+        cnx.commit()
+        g = cnx.cursor()
+        for command in load_sql('pop_spore_surface'):
+            print(command)
+            g.execute(command)
+        print("Populating SPORE_SURFACE")
+        cnx.commit()
+        h = cnx.cursor()
+        for command in load_sql('pop_spore_color'):
+            print(command)
+            h.execute(command)
+        print("Populating SPORE_COLOR")
+        cnx.commit()
 def load_sql(filename):
     with open("schema/%s.sql" % filename) as file:
         commands = file.read().split(';')
