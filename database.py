@@ -15,6 +15,15 @@ class AbstractDatabase(object):
         print("Creating new tables")
         self.multirun('create_all')
 
+        print("Populating CAP_SHAPE")
+        self.multirun('pop_cap_shape')
+        
+        print("Populating GILL_ATTATCHMENT")
+        self.multirun('pop_gill_attatchment')
+
+        print("Populating SPORE_COLOR")
+        self.multirun('pop_spore_color')
+
     def multirun(self, filename):
         """ Runs the semi-colon deliminated set of sql commands from a file """
         with open(path.join(self.sqlpath, filename + '.sql')) as file:
@@ -89,54 +98,3 @@ def get_database(config):
         return MySQLDatabase(dbconfig)
     else:
         raise NotImplementedError("Invalid DB type")
-
-<<<<<<< HEAD
-def reinit_database(db):
-    with db.connection() as cnx:
-        c = cnx.cursor()
-        for command in load_sql('drop_all'):
-            print(command)
-            c.execute(command)
-        print("Dropping")
-        cnx.commit()
-	d = cnx.cursor()
-        for command in load_sql('create_all'):
-            print(command)
-            d.execute(command)
-        print("Recreating")
-        cnx.commit()
-	e = cnx.cursor()
-        for command in load_sql('pop_cap_shape'):
-            print(command)
-            e.execute(command)
-        print("Populating CAP_SHAPE")
-        cnx.commit()
-        f = cnx.cursor()
-        for command in load_sql('pop_gill_attatchment'):
-            print(command)
-            f.execute(command)
-        print("Populating GILL_ATTATCHMENT")
-        cnx.commit()
-        g = cnx.cursor()
-        for command in load_sql('pop_spore_surface'):
-            print(command)
-            g.execute(command)
-        print("Populating SPORE_SURFACE")
-        cnx.commit()
-        h = cnx.cursor()
-        for command in load_sql('pop_spore_color'):
-            print(command)
-            h.execute(command)
-        print("Populating SPORE_COLOR")
-        cnx.commit()
-def load_sql(filename):
-    with open("schema/%s.sql" % filename) as file:
-        commands = file.read().split(';')
-        commands = (command.strip() for command in commands if len(command) > 5)
-        return commands
-=======
-
-       
-
-
->>>>>>> 5dbb05afa16f7aff8d3fa0930afb3903276accd9
