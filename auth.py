@@ -1,10 +1,12 @@
-from flask import render_template, flash, request, session, redirect, g, abort
+from flask import render_template, flash, request, session, redirect, g, abort 
+
 from routes import app
+
 
 class User(object):
     def __init__(self, username):
         matches = app.db.execute('SELECT * FROM APP_USER WHERE Username=%s', username)
-        self.name, self.id, self.description, self.lat, self.long = matches[0]
+        self.name, self.id, self.description, self.latitude, self.longitude = matches[0]
         print(self.id)
 
 @app.before_request
@@ -48,8 +50,30 @@ def logout():
     session.pop('username', None)
     return redirect('/')
 
-@app.route('/profile')
+from flask_wtf import Form
+from wtforms import TextField, DecimalField
+from wtforms.validators import DataRequired, NumberRange
+
+class UserInfo(Form):
+    description = TextField(
+        label='Description')
+    latitude = DecimalField(
+        label='Latitude',
+        validators=[NumberRange(-90,90)],
+        rounding=4)
+    longitude = DecimalField(
+        label='Longitude',
+        validators=[NumberRange(-180,180)],
+        rounding=4)
+
+@app.route('/profile', methods=['GET', 'POST'])
 @requires_login
 def profile():
-    flash('Profile page not yet implemented', 'warning')
-    return render_template('layout.html')
+    form = UserInfo(obj=g.user)
+    if form.validate_on_submit():
+        flash("User info changed!", 'success')
+        return redirect
+    for field, errors in form.errors.items():
+        for error in errors:
+            flash('%s: %s' % (field, error), 'danger')
+    return render_template('profile.html', form=form)

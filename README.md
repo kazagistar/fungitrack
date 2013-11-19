@@ -16,9 +16,11 @@ Databases assignment to create a database application
 
 5. Run `pip install -r requirements.txt` to install the requirements.
 
-6. Run `python server.py`. It should track file changes and automatically reload changes in the server.
+6. Copy `config_local.py` or `config_remote.py` to `config.py` depending on if you want SQLite or MySQL, respectively, and edit it for basic customization.
 
-7. Navigate to the [webpage](http://localhost:5000)
+7. Run `python server.py`. It should track file changes and automatically reload changes in the server.
+
+8. Navigate to the [webpage](http://localhost:5000)
 
 
 #### Additional setup notes ####
@@ -31,6 +33,8 @@ Databases assignment to create a database application
 
 - If you want to push back to the repo, you will have to send me your github username so I can add you as a collaborator.
 
+- If the database is broken, you can use the '--reload' parameter to erase and reset all server data. `--config <filename>` lets you use a temporary alterative configuration file. `--help` will show all command line parameters. 
+
 
 ### Workflow ###
 
@@ -40,8 +44,8 @@ Call these commands from inside the git repo. Alternatively, you a graphical opt
 
 - `git commit -a` to add your most recent changes to a commit. This should open up an editor where you can write a short message describing the commit. Alternatively, you can add specific files with `git add <filename>` and then commit the added changes with `git commit`. Note: these commits are local to your computer, not shared.
 
-- `git pull`: Grabs the latest changes from the server. However, if you have made any local commits, you might conflict. To resolve this, you have to `git fetch` the changes, and then `git merge` them in, and then resolve differences in the files.
+- `git pull`: Grabs the latest changes from the server. However, if you have made any local commits, you might conflict. To resolve this, you have to `git fetch` the changes, and then `git merge` them in, and then resolve differences in the files. Afterwards, commit your changes, and git will track which branches were merged when.
 
 - `git push` to send your changes up to the server. If someone else pushed changes since you last pulled, you will have to fetch and merge as above before you can push.
 
-- `git status` to see what the state of git is (what files have been added and modified, etc)
+- `git status` to see what the state of git is (what files have been added and modified, etc).

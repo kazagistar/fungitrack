@@ -1,0 +1,38 @@
+{% extends 'layout.html' %}
+{% block body %}
+  <form class="form-horizontal" role="form" method="POST">
+  	{{ form.hidden_tag() }}
+
+  	<div class="form-group">
+  	  <label class="col-sm-2 control-label">Username</label>
+  	  <p class="col-sm-10 form-control-static">{{ g.user.name }}</p>
+  	</div>
+
+    <div class="form-group">
+  	  <label class="col-sm-2 control-label">{{ form.description.label }}</label>
+  	  <div class="col-sm-10">
+  	  	<textarea name="description" class="form-control">{{ form.description.data or '' }}</textarea>
+  	  </div>
+    </div>
+
+    <div class="form-group">
+  	  <label class="col-sm-2 control-label">{{ form.latitude.label }}</label>
+  	  <div class="col-sm-10">
+  	  	<input name="latitude" type="number" class="form-control" value="{{ form.latitude.data or '' }}" />
+  	  </div>
+    </div>
+
+    <div class="form-group">
+  	  <label class="col-sm-2 control-label">{{ form.longitude.label }}</label>
+  	  <div class="col-sm-10">
+  	  	<input name="longitude" type="number" class="form-control" value="{{ form.longitude.data or '' }}" />
+  	  </div>
+    </div>
+    
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-default">Change profile</button>
+      </div>
+    </div>
+  </form>
+{% endblock %}
