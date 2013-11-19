@@ -15,6 +15,15 @@ class AbstractDatabase(object):
         print("Creating new tables")
         self.multirun('create_all')
 
+        print("Populating CAP_SHAPE")
+        self.multirun('pop_cap_shape')
+        
+        print("Populating GILL_ATTATCHMENT")
+        self.multirun('pop_gill_attatchment')
+
+        print("Populating SPORE_COLOR")
+        self.multirun('pop_spore_color')
+
     def multirun(self, filename):
         """ Runs the semi-colon deliminated set of sql commands from a file """
         with open(path.join(self.sqlpath, filename + '.sql')) as file:
@@ -99,8 +108,3 @@ def get_database(config):
         return MySQLDatabase(dbconfig)
     else:
         raise NotImplementedError("Invalid DB type")
-
-
-       
-
-
