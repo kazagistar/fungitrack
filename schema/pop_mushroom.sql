@@ -1,0 +1,3 @@
+INSERT INTO MUSHROOM (Genus, Species, Variety, Edible, Spore_color_id, Cap_shape_id, Gill_attatchment_id, Spore_surface_id, Link, Description) VALUES
+       ("Coprinus", "Comatus", NULL, 1, 7, 2, 5, 1, "http://www.mushroomexpert.com/coprinus_comatus.html", "A very common mushroom in yards. This and other inky caps are very distinctive because they deliquesce (liquify) to disperse these jet-black spores. Delicious on toast"),
+       ("Lentinula", "Edodes", NULL, 1, 1, 3, 5, 1, "http://en.wikipedia.org/wiki/Shiitake", "A Delicous Mushroom. Easy to cultivate on hardwood logs, used heavily in asian cooking."); 

@@ -1,0 +1,7 @@
+INSERT INTO RECIPE(Recipe_name, Recipe_desc) VALUES
+       ("Fried Shaggy Manes", "Clean Shaggy Manes (Coprinus Comatus) by brushing with paper towel, cut cut caps in half (larger caps can be cut into quarters).  Mix one egg and a splash of milk in a cup or bowl. In another bowl, mix some flour and pepper or whatever other spices you want. Dip the mushroom pieces in the milk and egg mixture, dredge in flour mixture and then fry until golden brown. Set fried mushrooms on paper towel and let drain. Serve with Sriracha or any other dipping sauce you would like."),
+       ("Shiitake stir fry", "If using dried Shiitake (Lentinula Edodes), soak in water for at least 2 hours or overnight. Do not discard soaking liquid. Chop a clove or two of garlic a quarter of an onion. Slice Mushrooms fairly thinly. in a pan over low to medium heat, add a bit of cooking oil. Add mushrooms to pan.  After five minutes, add garlic and onions to pan (at this point you can also add chiles, if you wish). Then add vegetables, sliced fairly thinly (carrots, broccoli, whatever is in your fridge) cook for a few minutes and add a splash of soy sauce. Cover the pan and let steam for a few more minutes. Serve over rice");
+
+INSERT INTO RECIPE_MUSHROOMS(Recipe_id, Mushroom_id) VALUES
+       (1,1),
+       (2,2);
