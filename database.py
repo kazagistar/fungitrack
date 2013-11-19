@@ -24,6 +24,12 @@ class AbstractDatabase(object):
         print("Populating SPORE_COLOR")
         self.multirun('pop_spore_color')
 
+        print("Populating MUSHROOM")
+        self.multirun('pop_mushroom')
+
+        print("Populating RECIPE and MUSHROOM_RECIPE")
+        self.multirun('pop_recipe_and_recipe_mushrooms')
+
     def multirun(self, filename):
         """ Runs the semi-colon deliminated set of sql commands from a file """
         with open(path.join(self.sqlpath, filename + '.sql')) as file:
