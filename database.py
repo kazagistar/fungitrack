@@ -26,28 +26,36 @@ class AbstractDatabase(object):
             for command in commands:
                 if self._compat:
                     command = self._compat(command)
+                print(command)
                 c.execute(command)
             cnx.commit()
 
-    def execute(self, sql, args):
+    def execute(self, sql, *args):
+        """ Hacky yet somewhat universal direct sql execution function """
         with self.connection() as cnx:
             try:
                 c = cnx.cursor()
                 if self._compat:
                     sql = self._compat(sql)
                 c.execute(sql, args)
-                return c.fetchall()
-            except Error as e:
+                try:
+                    results = c.fetchall()
+                    cnx.commit()
+                    return results
+                except InterfaceError:
+                    cnx.commit()
+            except Exception as e:
                 cnx.rollback()
-            cnx.commit()
+                raise
 
     def connection(self):
         """ Abstract handle for getting a connection, irrelevent of backend
         Should use with keyword, and be a context manager """
         raise NotImplementedError("Cannot connect to abstract database; must subclass")
 
-    # can also implement a "_compat" method to translate sql into local dialect
-
+    def _compat(self, sql):
+        """ Override to provide MySQL compatibility """
+        return sql
 
 import sqlite3
 import re
@@ -64,12 +72,14 @@ class SQLiteDatabase(AbstractDatabase):
         return
 
     def _compat(self, sql):
-        return re.sub("AUTO_INCREMENT", "", sql, flags=re.IGNORECASE)
+        sql = re.sub("AUTO_INCREMENT", "", sql, flags=re.IGNORECASE)
+        sql = re.sub("%s", "?", sql)
+        return sql
 
-
+from mysql.connector import Connect
+from mysql.connector.errors import InterfaceError
 class MySQLDatabase(AbstractDatabase):
     def __init__(self, config):
-        from mysql.connector import Connect
         self.Connect = Connect
         self.params = config['params']
         super(MySQLDatabase, self).__init__()

@@ -1,13 +1,6 @@
 #!python2
-from flask import Flask, g, render_template, flash, Markup
-app = Flask(__name__)
-
-@app.route('/')
-def hello():
-    flash(Markup("<strong>Error:</strong> Alerts didn't work before!"), "danger")
-    flash(Markup("<strong>Yay!</strong> Now they do :)"), 'success')
-    return render_template('layout.html')
-
+from routes import app
+import auth
 
 if __name__ == "__main__":
     # Parse command line arguments
