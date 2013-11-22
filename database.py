@@ -35,7 +35,7 @@ class AbstractDatabase(object):
         with open(path.join(self.sqlpath, filename + '.sql')) as file:
             commands = file.read().split(';')
             # This heuristically strips out the useless parts, leaving pure sql commands
-            commands = (command.strip() for command in commands if len(command) > 5)
+            commands = (command.strip() for command in commands if command != '')
         with self.connection() as cnx:
             c = cnx.cursor()
             for command in commands:

@@ -72,8 +72,10 @@ def profile():
     form = UserInfo(obj=g.user)
     if form.validate_on_submit():
         flash("User info changed!", 'success')
-        return redirect
+        print(form.data)
+        print(dir(form.data['latitude']))
+        return redirect('/profile')
     for field, errors in form.errors.items():
         for error in errors:
             flash('%s: %s' % (field, error), 'danger')
-    return render_template('profile.html', form=form)
+    return render_template('profile.html', form=form, options=["first", "second", "third"])
