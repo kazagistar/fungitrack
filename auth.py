@@ -4,16 +4,24 @@ from routes import app
 
 
 class User(object):
-    def __init__(self, username):
+    def __init__(self, username): # load
         matches = app.db.execute('SELECT * FROM APP_USER WHERE Username=%s', username)
         self.name, self.id, self.description, self.latitude, self.longitude = matches[0]
-        print(self.id)
+        # Fix types, cause mysql just returns everything as strings
+        self.id = int(self.id)
+        self.latitude = float(self.latitude) if self.latitude else None
+        self.longitude = float(self.longitude) if self.longitude else None
+
+    def save(self):
+        app.db.execute(
+            'UPDATE APP_USER SET User_description=%s, Home_Location_lat=%s, Home_Location_long=%s WHERE User_id=%s',
+            self.description, self.latitude, self.longitude, self.id)
 
 @app.before_request
 def loaduser():
     try:
         g.user = User(session['username'])
-    except:
+    except (KeyError, IndexError):
         g.user = None
         session.pop('username', None)
 
@@ -25,6 +33,7 @@ def requires_login(func):
             abort(403)
         return func(*args, **kwargs)
     return wrapper
+
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -50,32 +59,33 @@ def logout():
     session.pop('username', None)
     return redirect('/')
 
+
 from flask_wtf import Form
 from wtforms import TextField, DecimalField
-from wtforms.validators import DataRequired, NumberRange
+from wtforms.validators import DataRequired, NumberRange, Optional, Length
+from wtforms.widgets import TextArea
 
 class UserInfo(Form):
     description = TextField(
-        label='Description')
+        label='Description',
+        validators=[Optional(), Length(min=1)],
+        widget=TextArea())
     latitude = DecimalField(
         label='Latitude',
-        validators=[NumberRange(-90,90)],
-        rounding=4)
+        validators=[Optional(), NumberRange(-90,90)],
+        places=4)
     longitude = DecimalField(
         label='Longitude',
-        validators=[NumberRange(-180,180)],
-        rounding=4)
+        validators=[Optional(), NumberRange(-180,180)],
+        places=4)
 
 @app.route('/profile', methods=['GET', 'POST'])
 @requires_login
 def profile():
     form = UserInfo(obj=g.user)
     if form.validate_on_submit():
-        flash("User info changed!", 'success')
-        print(form.data)
-        print(dir(form.data['latitude']))
+        flash('User info changed!', 'success')
+        form.populate_obj(g.user)
+        g.user.save()
         return redirect('/profile')
-    for field, errors in form.errors.items():
-        for error in errors:
-            flash('%s: %s' % (field, error), 'danger')
-    return render_template('profile.html', form=form, options=["first", "second", "third"])
+    return render_template('profile.html', form=form)

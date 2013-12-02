@@ -74,6 +74,12 @@ class AbstractDatabase(object):
 
 import sqlite3
 import re
+
+#Decimal handling hackery for sqlite
+import decimal
+sqlite3.register_adapter(decimal.Decimal, lambda d: str(d))
+sqlite3.register_converter("decimal", lambda s: decimal.Decimal(s))
+
 class SQLiteDatabase(AbstractDatabase):
     def __init__(self, config):
         self.filename = config['filename']
