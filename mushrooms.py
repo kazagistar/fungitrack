@@ -29,3 +29,15 @@ def mushroom_details(mushroom_id):
     return render_template('mushroom_details.html',
         mushroom=Mushroom(mushroom_id),
         current = "/mushroom")
+
+
+app.pages.append(("Recipes", '/recipe'))
+
+@app.route('/recipe/<int:recipe_id>')
+def recipe_details(recipe_id):
+    match = app.db.execute('SELECT Recipe_name, Recipe_desc FROM RECIPE WHERE Recipe_id=%s', recipe_id)[0]
+    return render_template('recipe_details.html',
+        mushroom=Mushroom(recipe_id),
+        name=match[0],
+        description=match[1],
+        current = "/recipe")
