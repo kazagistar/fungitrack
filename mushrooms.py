@@ -4,13 +4,15 @@ from routes import app
 
 
 app.pages.append(("Mushrooms", '/mushroom'))
+
 @app.route('/mushroom')
 def mushroom_list():
     return render_template("mushroom_list.html",
         mushrooms=app.db.execute("SELECT Genus, Species, Variety, Mushroom_id FROM MUSHROOM"),
-        current = "/mushroom")
+        current="/mushroom")
 
 class Mushroom:
+    """ Data structure to make accessing mushroom data in a semantic way easier """
     def __init__(self, mushroom_id):
         match = app.db.execute(app.db.get_query('lookup_mushroom'), mushroom_id)[0]
         self.genus = match[0]
@@ -26,8 +28,6 @@ class Mushroom:
 
 @app.route('/mushroom/<int:mushroom_id>')
 def mushroom_details(mushroom_id):
-    print "DARTATATATSQDFASDFA"
-    print str(app.db.execute(app.db.get_query('lookup_mushroom_recipes'), mushroom_id))
     return render_template('mushroom_details.html',
         mushroom=Mushroom(mushroom_id),
         recipes=app.db.execute(app.db.get_query('lookup_mushroom_recipes'), mushroom_id),
@@ -35,6 +35,7 @@ def mushroom_details(mushroom_id):
 
 
 app.pages.append(("Recipes", '/recipe'))
+
 @app.route('/recipe')
 def recipe_list():
     return render_template("recipe_list.html",
@@ -43,9 +44,10 @@ def recipe_list():
 
 @app.route('/recipe/<int:recipe_id>')
 def recipe_details(recipe_id):
-    match = app.db.execute('SELECT Recipe_name, Recipe_desc FROM RECIPE WHERE Recipe_id=%s', recipe_id)[0]
+    name, desc = app.db.execute('SELECT Recipe_name, Recipe_desc FROM RECIPE WHERE Recipe_id=%s', recipe_id)[0]
     return render_template('recipe_details.html',
         mushroom=Mushroom(recipe_id),
-        name=match[0],
-        description=match[1],
-        current = "/recipe")
+        name=name,
+        ingredients=app.db.execute(app.db.get_query('lookup_recipe_mushrooms'), recipe_id),
+        description=desc,
+        current="/recipe")

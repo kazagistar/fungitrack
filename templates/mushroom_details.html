@@ -46,7 +46,9 @@
   <h4> Recipes: </h4>
   <ol>
     {% for name, id in recipes %}
-      <ol><a href="/recipe/{{id}}">{{name}}</a></ol>
+      <li><a href="/recipe/{{ id }}">{{ name }}</a></li>
+    {% else %}
+      (None)
     {% endfor %}
   </ol>
   </div>

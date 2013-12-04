@@ -1,0 +1,5 @@
+SELECT Genus, Species, MUSHROOM.Mushroom_id
+FROM RECIPE_MUSHROOMS
+INNER JOIN MUSHROOM
+  ON RECIPE_MUSHROOMS.Mushroom_id = MUSHROOM.Mushroom_id
+WHERE Recipe_id = %s
