@@ -29,13 +29,16 @@ class AbstractDatabase(object):
 
         print("Populating RECIPE and MUSHROOM_RECIPE")
         self.multirun('pop_recipe_and_recipe_mushrooms')
-
+        
+    def get_query(self, filename):
+        with open(path.join(self.sqlpath, filename + '.sql')) as file:
+            return file.read()
+        
     def multirun(self, filename):
         """ Runs the semi-colon deliminated set of sql commands from a file """
-        with open(path.join(self.sqlpath, filename + '.sql')) as file:
-            commands = file.read().split(';')
-            # This heuristically strips out the useless parts, leaving pure sql commands
-            commands = (command.strip() for command in commands if command != '')
+        commands = self.get_query(filename).split(';')
+        # This heuristically strips out the useless parts, leaving pure sql commands
+        commands = (command.strip() for command in commands if command != '')
         with self.connection() as cnx:
             c = cnx.cursor()
             for command in commands:

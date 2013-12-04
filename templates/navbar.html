@@ -8,7 +8,7 @@
     </div>
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        {% for page, link in pages %}
+        {% for page, link in g.pages %}
           {% if link == current %}
             <li class="active"><a href="">{{ page }}</a></li>
           {% else %}

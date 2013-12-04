@@ -18,7 +18,7 @@ Spore_color_id INTEGER,
 Cap_shape_id INTEGER,
 Gill_attatchment_id INTEGER,
 Spore_surface_id INTEGER,
-Link VARCHAR(50), 
+Link VARCHAR(255),
 Description TEXT,
 Mushroom_id INTEGER NOT NULL AUTO_INCREMENT,
 PRIMARY KEY(Mushroom_id)

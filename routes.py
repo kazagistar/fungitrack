@@ -1,6 +1,12 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, g
 app = Flask(__name__)
 
 @app.route('/')
 def hello():
     return render_template('layout.html')
+
+app.pages = []
+
+@app.before_request
+def prepare_navbar_data():
+    g.pages = list(app.pages)

@@ -1,6 +1,6 @@
 #!python2
 from routes import app
-import auth
+import auth, mushrooms
 
 if __name__ == "__main__":
     # Parse command line arguments
