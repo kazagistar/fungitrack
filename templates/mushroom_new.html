@@ -1,0 +1,19 @@
+{% extends 'layout.html' %}
+{% import 'forms.html' as forms %}
+
+{% block body %}
+  <form class="form-horizontal" role="form" method="POST">
+    {{ form.hidden_tag() }}
+    {{ forms.text_field(form.genus) }}
+    {{ forms.text_field(form.species) }}
+    {{ forms.text_field(form.variety) }}
+    {{ forms.text_field(form.description) }}
+    {{ forms.text_field(form.link) }}
+    {{ forms.checkbox_field(form.edible) }}
+    {{ forms.text_field(form.color) }}
+    {{ forms.text_field(form.shape) }}
+    {{ forms.text_field(form.gill) }}
+    {{ forms.text_field(form.surface) }}
+    {{ forms.submit_button('Create mushroom') }}
+  </form>
+{% endblock %}

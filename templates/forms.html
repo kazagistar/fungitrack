@@ -24,6 +24,14 @@
   {% endcall %}
 {% endmacro %}
 
+{% macro checkbox_field(field, classes='') %}
+  {% call field_wrapper(field.label, field.errors) %}
+    <div class="checkbox">
+      {{ field(class_=classes) }}
+    </div>
+  {% endcall %}
+{% endmacro %}
+
 {% macro submit_button(label) %}
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">

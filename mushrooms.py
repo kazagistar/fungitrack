@@ -1,6 +1,15 @@
+# Flask imports
 from flask import render_template, flash, request, session, redirect, g, abort 
 
+# WTForms imports
+from flask_wtf import Form
+from wtforms import TextField, BooleanField, SelectField
+from wtforms.validators import Optional, Length, URL
+from wtforms.widgets import TextArea
+
+# local imports
 from routes import app
+from auth import requires_login
 
 
 app.pages.append(("Mushrooms", '/mushroom'))
@@ -32,6 +41,48 @@ def mushroom_details(mushroom_id):
         mushroom=Mushroom(mushroom_id),
         recipes=app.db.execute(app.db.get_query('lookup_mushroom_recipes'), mushroom_id),
         current="/mushroom")
+
+class MushroomInfo(Form):
+    genus = TextField(
+        label='Genus',
+        validators=[Optional(), Length(min=1, max=20)])
+    species = TextField(
+        label='Species',
+        validators=[Optional(), Length(min=1, max=100)])
+    variety = TextField(
+        label='Variety',
+        validators=[Optional(), Length(min=1, max=100)])
+    description = TextField(
+        label='Description',
+        validators=[Optional(), Length(min=1)],
+        widget=TextArea())
+    link = TextField(
+        label='External link',
+        validators=[Optional(), URL()])
+    edible = BooleanField(
+        label='Edible')
+    color = SelectField(
+        label="Spore color",
+        choices=[('','')],
+        validators=[Optional()])
+    shape = SelectField(
+        label="Cap shape",
+        choices=[('','')],
+        validators=[Optional()])
+    gill = SelectField(
+        label="Gill attatchment",
+        choices=[('','')],
+        validators=[Optional()])
+    surface = SelectField(
+        label="Spore surface",
+        choices=[('','')],
+        validators=[Optional()])
+
+@app.route('/mushroom/new', methods=['GET', 'POST'])
+@requires_login
+def mushroom_create():
+    form = MushroomInfo()
+    return render_template('mushroom_new.html', form=form)
 
 
 app.pages.append(("Recipes", '/recipe'))
