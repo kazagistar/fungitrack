@@ -1,0 +1,5 @@
+SELECT Recipe_name, RECIPE.Recipe_id
+FROM RECIPE_MUSHROOMS
+INNER JOIN RECIPE
+  ON RECIPE_MUSHROOMS.Recipe_id = RECIPE.Recipe_id
+WHERE Mushroom_id = %s

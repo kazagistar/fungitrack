@@ -26,9 +26,12 @@ class Mushroom:
 
 @app.route('/mushroom/<int:mushroom_id>')
 def mushroom_details(mushroom_id):
+    print "DARTATATATSQDFASDFA"
+    print str(app.db.execute(app.db.get_query('lookup_mushroom_recipes'), mushroom_id))
     return render_template('mushroom_details.html',
         mushroom=Mushroom(mushroom_id),
-        current = "/mushroom")
+        recipes=app.db.execute(app.db.get_query('lookup_mushroom_recipes'), mushroom_id),
+        current="/mushroom")
 
 
 app.pages.append(("Recipes", '/recipe'))
