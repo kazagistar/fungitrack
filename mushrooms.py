@@ -35,6 +35,11 @@ def mushroom_details(mushroom_id):
 
 
 app.pages.append(("Recipes", '/recipe'))
+@app.route('/recipe')
+def recipe_list():
+    return render_template("recipe_list.html",
+        recipes=app.db.execute("SELECT Recipe_name, Recipe_id FROM RECIPE"),
+        current="/recipe")
 
 @app.route('/recipe/<int:recipe_id>')
 def recipe_details(recipe_id):
