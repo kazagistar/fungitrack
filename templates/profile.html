@@ -8,8 +8,8 @@
       <p class="form-control-static">{{ g.user.name }}</p>
     {% endcall %}
     {{ forms.text_field(form.description) }}
-    {{ forms.text_field(form.latitude) }}
-    {{ forms.text_field(form.longitude) }}
+    {{ forms.text_field(form.latitude, classes='latitude') }}
+    {{ forms.text_field(form.longitude, classes='longitude') }}
     {{ forms.submit_button('Change profile')}}
   </form>
 {% endblock %}

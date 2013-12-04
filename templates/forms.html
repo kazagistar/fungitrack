@@ -18,9 +18,9 @@
   {% endif %}
 {% endmacro %}
 
-{% macro text_field(field) %}
+{% macro text_field(field, classes='') %}
   {% call field_wrapper(field.label, field.errors) %}
-    {{ field(class_='form-control') }}
+    {{ field(class_='form-control ' + classes) }}
   {% endcall %}
 {% endmacro %}
 
