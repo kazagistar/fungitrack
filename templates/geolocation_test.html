@@ -1,0 +1,19 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <div class="col-md-2"> Latitude (input): </div>
+  <!-- Normal example -->
+  <div class="col-md-5 latitude">(empty)</div>
+  <!-- Form example -->
+  <div class="col-md-5">
+    <input type="text" class="form-control latitude" name="latitude" placeholder="(empty)"/>
+  </div>
+
+  <div class="col-md-2"> Longitude: </div>
+  <!-- Normal example -->
+  <div class="col-md-5 longitude">(empty)</div>
+  <!-- Form example -->
+  <div class="col-md-5">
+    <input type="text" class="form-control longitude" name="longitude" placeholder="(empty)"/>
+  </div>
+{% endblock %}

@@ -5,6 +5,10 @@ app = Flask(__name__)
 def hello():
     return render_template('index.html')
 
+@app.route('/test/geolocation')
+def geotest():
+    return render_template('geolocation_test.html')
+
 app.pages = []
 
 @app.before_request
