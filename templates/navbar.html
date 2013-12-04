@@ -9,11 +9,7 @@
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         {% for page, link in g.pages %}
-          {% if link == current %}
-            <li class="active"><a href="">{{ page }}</a></li>
-          {% else %}
-            <li><a href="{{ link }}">{{ page }}</a></li>
-          {% endif %}
+          <li {% if link == current %} class="active" {% endif %}><a href="{{ link }}">{{ page }}</a></li>
         {% endfor %}
       </ul>
       {% if g.user %}
