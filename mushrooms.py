@@ -82,6 +82,10 @@ class MushroomInfo(Form):
 @requires_login
 def mushroom_create():
     form = MushroomInfo()
+    form.color.choices.extend(app.db.execute('SELECT * FROM SPORE_COLOR'))
+    form.shape.choices.extend(app.db.execute('SELECT * FROM CAP_SHAPE'))
+    form.gill.choices.extend(app.db.execute('SELECT * FROM GILL_ATTATCHMENT'))
+    form.surface.choices.extend(app.db.execute('SELECT * FROM SPORE_SURFACE'))
     return render_template('mushroom_new.html', form=form)
 
 
