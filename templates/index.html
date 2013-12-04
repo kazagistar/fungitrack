@@ -1,0 +1,56 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+      <div class="jumbotron">
+        <h1>Welcome to Fungitrack!</h1>
+        <p>Mushroom collection can be fun, delicious and profitable, and to that end, we are building a database for finding the best mushroom picking locations, and sharing them with your friends. It will help you learn what mushrooms are in season and where to find them.</p>
+      </div>
+      
+      <p>For the more technically inclined, here is a quick overview of our current technology stack</p>
+      <div class="row">
+        <div class="col-lg-4">
+          <h4>Python</h4>
+          <p>Programming language with good documentation, multiple paradigm support, a short learning curve, and excellent libraries.</p>
+        </div>
+        
+        <div class="col-lg-4">
+          <h4>Flask</h4>
+          <p>Minimalist python web library which support quick iteration and minimal code to get up and running.</p>
+        </div>
+        
+        <div class="col-lg-4">
+          <h4>Jinja2 <small>(included in flask)</small></h4>
+          <p>Common templating language for python that comes with Flask, which allows you to have all the convenience of declarative HTML construction.</p>
+        </div>
+        
+        <div class="col-lg-4">
+          <h4>WTForms</h4>
+          <p>Form validation system, which makes it easy to validate web form data and verify that all the information is correct, and then fix anything you did wrong.</p>
+        </div>
+        
+        <div class="col-lg-4">
+          <h4>Bootstrap</h4>
+          <p>Frontend web development toolkit; makes it easy to make web pages that are not ugly!</p>
+        </div>
+        
+        <div class="col-lg-4">
+          <h4>Pip</h4>
+          <p>Python package management system. Installing it can be a bit of a hassle, but once you are done, a simple "pip install -r requirements.txt" ensures you have all the libraries needed to run code.</p>
+        </div>
+
+        <div class="col-lg-4">
+          <h4>MySQL</h4>
+          <p>... not my first choice, but easy to deal with since he is providing us with the DB I guess? For now, SQLite will suffice.</p>
+        </div>
+        
+        <div class="col-lg-4">
+          <h4>MySQL-connector-python</h4>
+          <p>A pure python implementation of a MySQL connector, and therefore easy to import</p>
+        </div>
+        
+        <div class="col-lg-4">
+          <h4>Git + Github</h4>
+          <p>A preeminent platform for distributed version control. Make an account and I will give you push privilages.</p>
+        </div>
+      </div>
+{% endblock %}
