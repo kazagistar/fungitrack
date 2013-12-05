@@ -32,6 +32,12 @@ class AbstractDatabase(object):
 
         print("Populating RECIPE and MUSHROOM_RECIPE")
         self.multirun('pop_recipe_and_recipe_mushrooms')
+
+        print("Populating APP_USER")
+        self.multirun('pop_app_users')
+        
+        print("Populating MUSHROOM_FIND")
+        self.multirun('pop_mushroom_find')
         
     def get_query(self, filename):
         with open(path.join(self.sqlpath, filename + '.sql')) as file:
