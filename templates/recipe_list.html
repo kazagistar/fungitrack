@@ -1,10 +1,7 @@
-{% extends 'layout.html' %}
+{% extends 'list.html' %}
 
-{% block body %}
-  <h2> Recipe List </h2>
-  <ol>
-    {% for name, id in recipes %}
-      <li><a href="/recipe/{{ id }}">{{ name }}</a></li>
-    {% endfor %}
-  </ol>
+{% block itemlink %}/recipe/{{ item[1] }}{% endblock %}
+
+{% block itemshow %}
+  {{ item[0] }}
 {% endblock %}

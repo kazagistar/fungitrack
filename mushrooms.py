@@ -17,7 +17,9 @@ app.pages.append(("Mushrooms", '/mushroom'))
 @app.route('/mushroom')
 def mushroom_list():
     return render_template("mushroom_list.html",
-        mushrooms=app.db.execute("SELECT Genus, Species, Variety, Mushroom_id FROM MUSHROOM"),
+        items=app.db.execute("SELECT Genus, Species, Variety, Mushroom_id FROM MUSHROOM"),
+        title="Mushroom List",
+        newlink="/mushroom/new",
         current="/mushroom")
 
 class Mushroom:
@@ -122,7 +124,8 @@ app.pages.append(("Recipes", '/recipe'))
 @app.route('/recipe')
 def recipe_list():
     return render_template("recipe_list.html",
-        recipes=app.db.execute("SELECT Recipe_name, Recipe_id FROM RECIPE"),
+        items=app.db.execute("SELECT Recipe_name, Recipe_id FROM RECIPE"),
+        title="Recipe List",
         current="/recipe")
 
 @app.route('/recipe/<int:recipe_id>')

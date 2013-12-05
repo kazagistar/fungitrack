@@ -1,22 +1,11 @@
-{% extends 'layout.html' %}
+{% extends 'list.html' %}
 
-{% block body %}
-  <h1> 
-    Mushroom List
-    <a href="/mushroom/new" class="btn btn-default">
-      Add more...
-    </a>
-  </h1> 
+{% block itemlink %}mushroom/{{ item[3] }}{% endblock %}
 
-  <div class="list-group">
-    {% for mushroom in mushrooms %}
-      <a href="mushroom/{{ mushroom[3] }}" class="list-group-item">
-       Genus: <strong> {{ mushroom[0] }} </strong>
-       Species: <strong> {{ mushroom[1] }} </strong>
-       {% if mushroom[2] %}
-         Variety: <strong> {{ mushroom[2] }} </strong>
-       {% endif %}
-      </a>
-    {% endfor %}
-  </div>
+{% block itemshow %}
+  Genus: <strong> {{ item[0] }} </strong>
+  Species: <strong> {{ item[1] }} </strong>
+  {% if item[2] %}
+   Variety: <strong> {{ item[2] }} </strong>
+  {% endif %}
 {% endblock %}
