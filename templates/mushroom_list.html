@@ -1,7 +1,12 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-  <h2> Mushroom List </h2>
+  <h1> 
+    Mushroom List
+    <a href="/mushroom/new" class="btn btn-default">
+      Add more...
+    </a>
+  </h1> 
 
   <div class="list-group">
     {% for mushroom in mushrooms %}

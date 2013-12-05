@@ -112,7 +112,9 @@ def mushroom_create():
         flash('Mushroom %s %s added' % (form.genus, form.species), 'success')
         return redirect('/mushroom/{id}'.format(
             id=app.db.execute('SELECT MAX(Mushroom_id) FROM MUSHROOM')[0][0]))
-    return render_template('mushroom_new.html', form=form)
+    return render_template('mushroom_new.html',
+        form=form,
+        current='/mushroom')
 
 
 app.pages.append(("Recipes", '/recipe'))
