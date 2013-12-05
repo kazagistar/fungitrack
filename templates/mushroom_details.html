@@ -3,7 +3,7 @@
 {% block body %}
   <h3> {{ mushroom.genus }}, {{ mushroom.species }}
    {% if mushroom.variety %}
-     ({{ mushroom[2] }})
+     ({{ mushroom.variety }})
    {% endif %}
   </h3>
 

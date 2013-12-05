@@ -78,14 +78,40 @@ class MushroomInfo(Form):
         choices=[('','')],
         validators=[Optional()])
 
+
+def fetch_choices(source, destination):
+    results = app.db.execute('SELECT * FROM %s' % source)
+    results = [(str(id), str(text)) for id, text in results]
+    destination.choices.extend(results)
+
 @app.route('/mushroom/new', methods=['GET', 'POST'])
 @requires_login
 def mushroom_create():
     form = MushroomInfo()
-    form.color.choices.extend(app.db.execute('SELECT * FROM SPORE_COLOR'))
-    form.shape.choices.extend(app.db.execute('SELECT * FROM CAP_SHAPE'))
-    form.gill.choices.extend(app.db.execute('SELECT * FROM GILL_ATTATCHMENT'))
-    form.surface.choices.extend(app.db.execute('SELECT * FROM SPORE_SURFACE'))
+    fetch_choices('SPORE_COLOR', form.color)
+    fetch_choices('CAP_SHAPE', form.shape)
+    fetch_choices('GILL_ATTATCHMENT', form.gill)
+    fetch_choices('SPORE_SURFACE', form.surface)
+    if form.validate_on_submit():
+        app.db.execute(
+            """
+                INSERT INTO MUSHROOM 
+                (Genus,Species,Variety,Edible,Spore_color_id,Cap_shape_id,Gill_attatchment_id,Spore_surface_id,Link,Description)
+                VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+            """,
+            form.genus.data,
+            form.species.data,
+            form.variety.data,
+            form.edible.data,
+            form.color.data,
+            form.shape.data,
+            form.gill.data,
+            form.surface.data,
+            form.link.data,
+            form.description.data)
+        flash('Mushroom %s %s added' % (form.genus, form.species), 'success')
+        return redirect('/mushroom/{id}'.format(
+            id=app.db.execute('SELECT MAX(Mushroom_id) FROM MUSHROOM')[0][0]))
     return render_template('mushroom_new.html', form=form)
 
 
