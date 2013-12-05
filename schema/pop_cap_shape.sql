@@ -1,5 +1,5 @@
-INSERT INTO CAP_SHAPE
-VALUES(1,"Campanulate"),
+INSERT INTO CAP_SHAPE VALUES
+      (1,"Campanulate"),
       (2,"Conical"),
       (3,"Convex"),
       (4,"Depressed"),

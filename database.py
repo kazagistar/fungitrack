@@ -23,6 +23,9 @@ class AbstractDatabase(object):
 
         print("Populating SPORE_COLOR")
         self.multirun('pop_spore_color')
+        
+        print("Populating SPORE_SURFACE")
+        self.multirun('pop_spore_surface')
 
         print("Populating MUSHROOM")
         self.multirun('pop_mushroom')
