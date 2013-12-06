@@ -1,0 +1,14 @@
+{% extends 'layout.html' %}
+{% import 'forms.html' as forms %}
+
+{% block body %}
+  <form class="form-horizontal" role="form" method="POST">
+    {{ form.hidden_tag() }}
+    {{ forms.text_field(form.mushroom) }}
+    {{ forms.text_field(form.latitude) }}
+    {{ forms.text_field(form.longitude) }}
+    {{ forms.text_field(form.date) }}
+    {{ forms.text_field(form.quantity) }}
+    {{ forms.submit_button('Submit find') }}
+  </form>
+{% endblock %}

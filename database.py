@@ -23,12 +23,21 @@ class AbstractDatabase(object):
 
         print("Populating SPORE_COLOR")
         self.multirun('pop_spore_color')
+        
+        print("Populating SPORE_SURFACE")
+        self.multirun('pop_spore_surface')
 
         print("Populating MUSHROOM")
         self.multirun('pop_mushroom')
 
         print("Populating RECIPE and MUSHROOM_RECIPE")
         self.multirun('pop_recipe_and_recipe_mushrooms')
+
+        print("Populating APP_USER")
+        self.multirun('pop_app_users')
+        
+        print("Populating MUSHROOM_FIND")
+        self.multirun('pop_mushroom_find')
         
     def get_query(self, filename):
         with open(path.join(self.sqlpath, filename + '.sql')) as file:
