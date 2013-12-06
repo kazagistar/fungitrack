@@ -37,6 +37,10 @@ class Mushroom:
         self.link = match[8]
         self.description = match[9]
 
+    @staticmethod
+    def normalize_name(*names):
+        return " ".join(name for name in names if name)
+
 @app.route('/mushroom/<int:mushroom_id>')
 def mushroom_details(mushroom_id):
     return render_template('mushroom_details.html',
@@ -83,7 +87,7 @@ def fetch_choices(source, destination):
 
 def fetch_mushroom(destination):
     results = app.db.execute('SELECT Genus, Species, Variety, Mushroom_id from MUSHROOM')
-    destination.choices = [('','')] + [(str(id) ,str(genus) + " " + str(species) + " " + str(variety)) for genus, species, variety, id in results]
+    destination.choices = [(str(id), Mushroom.normalize_name(genus, species, variety)) for genus, species, variety, id in results]
 
 @app.route('/mushroom/new', methods=['GET', 'POST'])
 @requires_login
@@ -144,6 +148,7 @@ app.pages.append(("Submit a Find", '/mushroom_find_new'))
 def make_find():
     form = FindInfo()
     fetch_mushroom(form.mushroom)
+    print form.mushroom.choices
     if form.validate_on_submit():
          app.db.execute(
             """
@@ -158,7 +163,7 @@ def make_find():
             form.date.data,
             form.quantity.data)
          flash('Find added', 'success')
-    return render_template('mushroom_find_new.html', form = FindInfo(), current = '/mushroom_find_new')
+    return render_template('mushroom_find_new.html', form = form, current = '/mushroom_find_new')
     
 
 class FindInfo(Form):    
