@@ -65,31 +65,25 @@ class MushroomInfo(Form):
         label='Edible')
     color = SelectField(
         label="Spore color",
-        choices=[('','')],
         validators=[Optional()])
     shape = SelectField(
         label="Cap shape",
-        choices=[('','')],
         validators=[Optional()])
     gill = SelectField(
         label="Gill attatchment",
-        choices=[('','')],
         validators=[Optional()])
     surface = SelectField(
         label="Spore surface",
-        choices=[('','')],
         validators=[Optional()])
 
 
 def fetch_choices(source, destination):
     results = app.db.execute('SELECT * FROM %s' % source)
-    results = [(str(id), str(text)) for id, text in results]
-    destination.choices.extend(results)
+    destination.choices = [('','')] + [(str(id), str(text)) for id, text in results]
 
 def fetch_mushroom(destination):
     results = app.db.execute('SELECT Genus, Species, Variety, Mushroom_id from MUSHROOM')
-    results = [(str(id) ,str(genus) + " " + str(species) + " " + str(variety)) for genus, species, variety, id in results]
-    destination.choices.extend(results)
+    destination.choices = [('','')] + [(str(id) ,str(genus) + " " + str(species) + " " + str(variety)) for genus, species, variety, id in results]
 
 @app.route('/mushroom/new', methods=['GET', 'POST'])
 @requires_login
@@ -170,7 +164,6 @@ def make_find():
 class FindInfo(Form):    
     mushroom = SelectField(
         label = 'Mushroom',
-        choices =[('','')],
         validators = [Optional()])
     latitude = DecimalField(
         label='Latitude',
