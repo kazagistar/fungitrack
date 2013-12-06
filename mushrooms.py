@@ -3,8 +3,8 @@ from flask import render_template, flash, request, session, redirect, g, abort
 
 # WTForms imports
 from flask_wtf import Form
-from wtforms import TextField, BooleanField, SelectField
-from wtforms.validators import Optional, Length, URL
+from wtforms import TextField, BooleanField, SelectField, DecimalField, IntegerField, DateField
+from wtforms.validators import Optional, Length, URL, NumberRange
 from wtforms.widgets import TextArea
 
 # local imports
@@ -84,6 +84,11 @@ def fetch_choices(source, destination):
     results = [(str(id), str(text)) for id, text in results]
     destination.choices.extend(results)
 
+def fetch_mushroom(destination):
+    results = app.db.execute('SELECT Genus, Species, Variety, Mushroom_id from MUSHROOM')
+    results = [(str(id) ,str(genus) + " " + str(species) + " " + str(variety)) for genus, species, variety, id in results]
+    destination.choices.extend(results)
+
 @app.route('/mushroom/new', methods=['GET', 'POST'])
 @requires_login
 def mushroom_create():
@@ -134,3 +139,47 @@ def recipe_details(recipe_id):
         ingredients=app.db.execute(app.db.get_query('lookup_recipe_mushrooms'), recipe_id),
         description=desc,
         current="/recipe")
+
+app.pages.append(("Submit a Find", '/mushroom_find_new'))
+
+@app.route('/mushroom_find_new', methods = ['GET', 'POST'])
+@requires_login
+def make_find():
+    form = FindInfo()
+    fetch_mushroom(form.mushroom)
+    if form.validate_on_submit():
+         app.db.execute(
+            """
+                INSERT INTO MUSHROOM_FIND 
+                (User_id, Mushroom_id, Found_lat, Found_long, Found_date, Quantity)
+                VALUES (%s,%s,%s,%s,%s,%s)
+            """,
+            g.user.id,
+            form.mushroom.data,
+            form.latitude.data,
+            form.longitude.data,
+            form.date.data,
+            form.quantity.data)
+         flash('Find added', 'success')
+    return render_template('mushroom_find_new.html', form = FindInfo(), current = '/mushroom_find_new')
+    
+
+class FindInfo(Form):    
+    mushroom = SelectField(
+        label = 'Mushroom',
+        choices =[('','')],
+        validators = [Optional()])
+    latitude = DecimalField(
+        label='Latitude',
+        validators=[Optional(), NumberRange(-90,90)],
+        places=4)
+    longitude = DecimalField(
+        label='Longitude',
+        validators=[Optional(), NumberRange(-180,180)],
+        places=4)
+    date = DateField(
+        label = 'Date',
+        validators = [Optional()])
+    quantity = IntegerField(
+        label = 'Quantity',
+        validators=[Optional()])
