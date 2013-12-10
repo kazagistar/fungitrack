@@ -200,7 +200,7 @@ class FindQueryForm(Form):
         places=4)
     distance = DecimalField(
         label='Distance (km)',
-        validators=[NumberRange(0, DISTANCE_CAP)],
+        #validators=[NumberRange(0, DISTANCE_CAP)],
         places=4)
 
 def wrap_find_result(find):

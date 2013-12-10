@@ -5,39 +5,43 @@
     Found mushrooms:
   </h1>
 
-  <img class="img-rounded" src="http://maps.googleapis.com/maps/api/staticmap?size=1000x1000&center={{ params.latitude.data }},{{ params.longitude.data }}&markers={{ nearby | join('|', attribute='coord') }}&sensor=false">
+  {% if nearby %}
+    <img class="img-rounded" src="http://maps.googleapis.com/maps/api/staticmap?size=1000x1000&center={{ params.latitude.data }},{{ params.longitude.data }}&markers={{ nearby | join('|', attribute='coord') }}&sensor=false">
 
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        {% for header in ['Name', 'Date', 'Latitude', 'Longitude', 'Quantity'] %}
-          <th>
-            {{ header }}
-          </th>
-        {% endfor %}
-      </tr>
-    <tbody>
-      {% for find in nearby %}
+    <table class="table table-striped">
+      <thead>
         <tr>
-          <td>
-            <a href="/mushroom/{{ find['mushroom_id'] }}">
-              {{ find['name'] }}
-            </a>
-          </td>
-          <td>
-            {{ find['date'] }}
-          </td>
-          <td>
-            {{ find['latitude'] }}
-          </td>
-          <td>
-            {{ find['longitude'] }}
-          </td>
-          <td>
-            {{ find['quantity'] }}
-          </td>
+          {% for header in ['Name', 'Date', 'Latitude', 'Longitude', 'Quantity'] %}
+            <th>
+              {{ header }}
+            </th>
+          {% endfor %}
         </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+      <tbody>
+        {% for find in nearby %}
+          <tr>
+            <td>
+              <a href="/mushroom/{{ find['mushroom_id'] }}">
+                {{ find['name'] }}
+              </a>
+            </td>
+            <td>
+              {{ find['date'] }}
+            </td>
+            <td>
+              {{ find['latitude'] }}
+            </td>
+            <td>
+              {{ find['longitude'] }}
+            </td>
+            <td>
+              {{ find['quantity'] }}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    (none found)
+  {% endif %}
 {% endblock %}
