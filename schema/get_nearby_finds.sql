@@ -1,0 +1,2 @@
+SELECT (Mushroom_id, Found_lat, Found_long, Found_date, Quantity, Genus, Species, Variety) FROM MUSHROOM_FINDS JOIN MUSHROOM WHERE
+ACOS(SIN(%s) * SIN(Found_lat) + COS(%s) * COS(Found_long) * COS(%s - found_long)) * 6378.1 < %s;
