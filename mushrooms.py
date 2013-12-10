@@ -215,7 +215,7 @@ def find_nearby():
     form = FindQueryForm()
     if form.validate_on_submit():
         query = app.db.get_query("get_nearby_finds")
-        nearby = app.db.execute(query, form.latitude.data, form.longitude.data, form.longitude.data, form.distance.data)
+        nearby = app.db.execute(query, form.longitude.data, form.latitude.data, form.latitude.data, form.distance.data)
         nearby = [wrap_find_result(find) for find in nearby]
         return render_template("mushroom_finds.html", nearby = nearby, params = form, current = '/find_nearby')
     return render_template('find_nearby_form.html', form = form, current = '/find_nearby')
