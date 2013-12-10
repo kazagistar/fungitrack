@@ -148,7 +148,6 @@ app.pages.append(("Submit a Find", '/mushroom_find_new'))
 def make_find():
     form = FindInfo()
     fetch_mushroom(form.mushroom)
-    print form.mushroom.choices
     if form.validate_on_submit():
          app.db.execute(
             """
@@ -184,3 +183,40 @@ class FindInfo(Form):
     quantity = IntegerField(
         label = 'Quantity',
         validators=[Optional()])
+
+
+app.pages.append(("Find Nearby", '/find_nearby'))
+
+DISTANCE_CAP = 100
+
+class FindQueryForm(Form):
+    latitude = DecimalField(
+        label='Latitude',
+        validators=[NumberRange(-90,90)],
+        places=4)
+    longitude = DecimalField(
+        label='Longitude',
+        validators=[NumberRange(-180,180)],
+        places=4)
+    distance = DecimalField(
+        label='Distance (km)',
+        validators=[NumberRange(0, DISTANCE_CAP)],
+        places=4)
+
+def wrap_find_result(find):
+    result = dict(zip(('mushroom_id', 'latitude', 'longitude', 'date', 'quantity', 'genus', 'species', 'variety'), find))
+    result['name'] = Mushroom.normalize_name(result['genus'], result['species'], result['variety'])
+    result['coord'] = str(result['latitude']) + ',' + str(result['longitude'])
+    return result
+
+@app.route('/find_nearby', methods = ['GET', 'POST'])
+@requires_login
+def find_nearby():
+    form = FindQueryForm()
+    if form.validate_on_submit():
+        query = app.db.get_query("get_nearby_finds")
+        nearby = app.db.execute(query, form.latitude.data, form.longitude.data, form.longitude.data, form.distance.data)
+        nearby = [wrap_find_result(find) for find in nearby]
+        return render_template("mushroom_finds.html", nearby = nearby, params = form, current = '/find_nearby')
+    return render_template('find_nearby_form.html', form = form, current = '/find_nearby')
+    
