@@ -121,9 +121,32 @@ def mushroom_create():
         form=form,
         current='/mushroom')
 
+class IdInfo(Form):
+    color = SelectField(
+        label="Spore color",
+        validators=[Optional()])
+    shape = SelectField(
+        label="Cap shape",
+        validators=[Optional()])
+    gill = SelectField(
+        label="Gill attatchment",
+        validators=[Optional()])
+    surface = SelectField(
+        label="Spore surface",
+        validators=[Optional()])
+
+app.pages.append(("Identify", '/identify_mushroom'))
+@app.route('/identify_mushroom')
+def get_id_info():
+    form = IdInfo()
+    fetch_choices('SPORE_COLOR', form.color)
+    fetch_choices('CAP_SHAPE', form.shape)
+    fetch_choices('GILL_ATTATCHMENT', form.gill)
+    fetch_choices('SPORE_SURFACE', form.surface)
+    return render_template('identify_mushroom.html',form=form, current='/identify_mushroom' )
+
 
 app.pages.append(("Recipes", '/recipe'))
-
 @app.route('/recipe')
 def recipe_list():
     return render_template("recipe_list.html",
