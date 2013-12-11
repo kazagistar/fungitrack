@@ -153,10 +153,13 @@ def get_id_info():
             if params[i]:
                 fields_to_query.append(param_tables[i])
                 keys_to_query.append(attr_keys[i])
-        query = "SELECT DISTINCT Genus, Species, Variety, Mushroom_id FROM MUSHROOM JOIN " + " ".join(fields_to_query) + " WHERE "
+        query = "SELECT DISTINCT Genus, Species, Variety, Mushroom_id FROM MUSHROOM JOIN " + " JOIN ".join(fields_to_query) + " WHERE "
         for i in range(len(params)):
             if params[i]:
-                query +="MUSHROOM." + attr_keys[i] + "=" + params[i]
+                if i == 0:
+                    query += "MUSHROOM." + attr_keys[i] + " = " + params[i] + " "
+                else:
+                    query += " AND MUSHROOM." + attr_keys[i] + " = " + params[i] + " "
         print query
         return render_template("mushroom_list.html",
         items=app.db.execute(query),
