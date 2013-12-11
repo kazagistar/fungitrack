@@ -1,0 +1,11 @@
+{% extends 'list.html' %}
+
+{% block itemlink %}mushroom/{{ matches[3] }}{% endblock %}
+
+{% block itemshow %}
+  Genus: <strong> {{ matches[0] }} </strong>
+  Species: <strong> {{ matches[1] }} </strong>
+  {% if item[2] %}
+   Variety: <strong> {{ matches[2] }} </strong>
+  {% endif %}
+{% endblock %}

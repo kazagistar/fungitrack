@@ -136,15 +136,34 @@ class IdInfo(Form):
         validators=[Optional()])
 
 app.pages.append(("Identify", '/identify_mushroom'))
-@app.route('/identify_mushroom')
+@app.route('/identify_mushroom', methods = ['GET', 'POST'])
 def get_id_info():
     form = IdInfo()
     fetch_choices('SPORE_COLOR', form.color)
     fetch_choices('CAP_SHAPE', form.shape)
     fetch_choices('GILL_ATTATCHMENT', form.gill)
     fetch_choices('SPORE_SURFACE', form.surface)
-    return render_template('identify_mushroom.html',form=form, current='/identify_mushroom' )
-
+    if form.validate_on_submit():
+        params = [form.color.data, form.shape.data, form.gill.data, form.surface.data]
+        attr_keys = ["Spore_color_id", "Cap_shape_id", "Gill_attatchment_id", "Spore_surface_id"]
+        param_tables = ['SPORE_COLOR', 'CAP_SHAPE', 'GILL_ATTATCHMENT', 'SPORE_SURFACE']
+        fields_to_query = list()
+        keys_to_query = list()
+        for i in range(len(params)):
+            if params[i]:
+                fields_to_query.append(param_tables[i])
+                keys_to_query.append(attr_keys[i])
+        query = "SELECT DISTINCT Genus, Species, Variety, Mushroom_id FROM MUSHROOM JOIN " + " ".join(fields_to_query) + " WHERE "
+        for i in range(len(params)):
+            if params[i]:
+                query +="MUSHROOM." + attr_keys[i] + "=" + params[i]
+        print query
+        return render_template("mushroom_list.html",
+        items=app.db.execute(query),
+        title="Possible Matches",
+        newlink="/mushroom/new",
+        current="/mushroom")
+    return render_template('identify_mushroom.html',form=form, current='/identify_mushroom')
 
 app.pages.append(("Recipes", '/recipe'))
 @app.route('/recipe')
