@@ -39,6 +39,9 @@ class AbstractDatabase(object):
         print("Populating MUSHROOM_FIND")
         self.multirun('pop_mushroom_find')
         
+        print("Creating conveniece views")
+        self.multirun('create_views')
+        
     def get_query(self, filename):
         with open(path.join(self.sqlpath, filename + '.sql')) as file:
             return file.read()
@@ -107,6 +110,7 @@ class SQLiteDatabase(AbstractDatabase):
     def _compat(self, sql):
         sql = re.sub("AUTO_INCREMENT", "", sql, flags=re.IGNORECASE)
         sql = re.sub("%s", "?", sql)
+        sql = re.sub("CREATE OR REPLACE VIEW", "CREATE VIEW IF NOT EXISTS", sql)
         return sql
 
 from mysql.connector import Connect
