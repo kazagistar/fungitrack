@@ -194,7 +194,7 @@ def make_find():
     form = FindInfo()
     fetch_mushroom(form.mushroom)
     if form.validate_on_submit():
-         app.db.execute(
+        app.db.execute(
             """
                 INSERT INTO MUSHROOM_FIND 
                 (User_id, Mushroom_id, Found_lat, Found_long, Found_date, Quantity)
@@ -206,25 +206,24 @@ def make_find():
             form.longitude.data,
             form.date.data,
             form.quantity.data)
-         flash('Find added', 'success')
+        flash('Find added', 'success')
+        return redirect('/find_nearby')
     return render_template('mushroom_find_new.html', form = form, current = '/mushroom_find_new')
     
 
 class FindInfo(Form):    
     mushroom = SelectField(
-        label = 'Mushroom',
-        validators = [Optional()])
+        label = 'Mushroom')
     latitude = DecimalField(
         label='Latitude',
-        validators=[Optional(), NumberRange(-90,90)],
+        validators=[NumberRange(-90,90)],
         places=4)
     longitude = DecimalField(
         label='Longitude',
-        validators=[Optional(), NumberRange(-180,180)],
+        validators=[NumberRange(-180,180)],
         places=4)
     date = DateField(
-        label = 'Date',
-        validators = [Optional()])
+        label = 'Date')
     quantity = IntegerField(
         label = 'Quantity',
         validators=[Optional()])
